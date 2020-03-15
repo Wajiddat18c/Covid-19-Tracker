@@ -1,3 +1,3 @@
 # Covid-19-Tracker
 
-[I'm an inline-style link](https://virus-covid19.herokuapp.com/)
+## [Link to my web-app](https://virus-covid19.herokuapp.com/)
