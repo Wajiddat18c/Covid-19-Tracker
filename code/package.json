@@ -5,8 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cross-env PORT=80 node app.js",
-    "start-dev": "cross-env PORT=3000 nodemon app.js"
+    "start": "node app.js"
   },
   "keywords": [
     "Kea"
@@ -15,6 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "heroku-ssl-redirect": "0.0.4",
     "nodemon": "^2.0.2",
     "request": "^2.88.2"
   },

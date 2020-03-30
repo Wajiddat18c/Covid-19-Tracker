@@ -1,59 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="style.css">
-    </head>
-
-<style>
-    p {
-        margin-left: 20px;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <title>CORONA</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />   
+     <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"
+    />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+  </head>
+  <style>
+    img {
+    vertical-align: middle;
+    border-style: none;
+    height: 20px;
+    width: 40px;
+    border:1px solid black;
+    float:right;
+  }
+    .table.sticky th {
+      background-color: grey;
+      position: sticky;
+      top: 0;
     }
-    h1 {
-        text-align: center;
+
+ 
+    .legend {
+      display: grid;
+      padding: 20px 0;
+      grid-template-columns: 8px auto min-content;
+      align-items: center;
+      grid-gap: 16px 8px;
+      font-size: 13px;
+      line-height: 20px;
+      text-align: center;
     }
-</style>
+    .legend .color {
+      width: 8px;
+      height: 8px;
+      border-radius: 8px;
+    }
+    .color{
+      width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    }
 
-<body>
-    <h1>Velkommen til Hjemmesiden!</h1>
+    canvas{
+    margin: 0 auto;
+    }
+  </style>
+  <body>
+    <h4 id="total"></h4>
+    <!-- <div class="legend">
+      <div id="caseColour"></div>
+      <div id="cases"></div>
+      <br />
+      <div id="HelbredtColour"></div>
+      <div id="helbredt"></div>
+      <br />
+      <div id="deadClour"></div>
+      <div id="dead"></div>
+      <br />
+    </div> -->
+    
+    <canvas id="myChart" width="300px" height="300px"></canvas>
 
-    <p>This is my hand-in assingment for node js class. <br />
-        I have chosen to split this assingment into multiple HTML pages <br />
-        I use the node modules Express to serve all of my pages.
-    </p>
-    <ul>
-        <div>This page will show some of the new Commands i have learned throughout this class.
-        <li><a href="/commands">Commands</a></li><br/>
-    </div>
-    <div>This page will show some Javascrpit.
-        <li><a href="/basic">Basic Javascrpit</a></li><br/>
-    </div>
-        <div>This page contains an explanation the theory behind REST 
-        <li><a href="/restful">RESTful API</a></li><br>
-        </div>
-        <div> This page will demonstrate a working example of my rest-api and include code snippets. 
-        <li><a href="/myrest">MyRest</a></li>
-    </div>
-    <br>
-    <div>I have made an Corona-tracker using Express, Ajax and Jquery
-        <li><a href="/corona">Covid-19 Tracker</a></li>
-    </div>
-    </ul>
+    <!-- <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for country"> -->
 
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
-</body>
+    <table id="virusTable" class="table table-bordered sticky">
+      <thead>
+        <tr class="header">
+          <th scope="col">Country</th>
+          <th scope="col">Cases</th>
+          <th scope="col">Today Cases</th>
+          <th scope="col">Today Death</th>
+          <th scope="col">Active</th>
+          <th scope="col">Death</th>
+          <th scope="col">Recovered</th>
+        </tr>
+      </thead>
+      <tbody id="virusBody"></tbody>
+    </table>
 
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <script src="ajax.js"></script>
+    <script src="chart.js"></script>
+  </body>
 </html>
